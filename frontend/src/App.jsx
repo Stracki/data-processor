@@ -1,0 +1,28 @@
+import React from 'react'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import './App.css'
+import Sidebar from './components/Sidebar'
+import ProjectList from './components/ProjectList'
+import NewTable from './components/NewTable'
+
+function App() {
+  return (
+    <Router>
+      <div className="app">
+        <Sidebar />
+        <main className="main-content">
+          <Routes>
+            <Route path="/" element={<ProjectList />} />
+            <Route path="/tabellen/overview" element={<div className="placeholder">Tabellen Übersicht - In Entwicklung</div>} />
+            <Route path="/tabellen/new" element={<NewTable />} />
+            <Route path="/tabellen/export" element={<div className="placeholder">Export - In Entwicklung</div>} />
+            <Route path="/prozeduren" element={<div className="placeholder">Prozeduren - In Entwicklung</div>} />
+            <Route path="/workflows" element={<div className="placeholder">Workflows - In Entwicklung</div>} />
+          </Routes>
+        </main>
+      </div>
+    </Router>
+  )
+}
+
+export default App
