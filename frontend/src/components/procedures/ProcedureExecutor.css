@@ -1,0 +1,170 @@
+.procedure-executor {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.procedure-executor-loading {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}
+
+.procedure-executor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.procedure-executor-header h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.procedure-description {
+  background: #f5f5f5;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #666;
+}
+
+.error-message {
+  background: #ffebee;
+  color: #c62828;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  border-left: 4px solid #c62828;
+}
+
+.result-message {
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  border-left: 4px solid;
+}
+
+.result-message.success {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border-color: #4CAF50;
+}
+
+.result-message.error {
+  background: #ffebee;
+  color: #c62828;
+  border-color: #f44336;
+}
+
+.parameters-form {
+  margin-bottom: 20px;
+}
+
+.parameters-form h3 {
+  margin: 0 0 15px 0;
+  font-size: 16px;
+}
+
+.parameter-group {
+  margin-bottom: 20px;
+}
+
+.parameter-group label {
+  display: block;
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.required {
+  color: #f44336;
+  margin-left: 4px;
+}
+
+.param-type {
+  color: #666;
+  font-weight: normal;
+  font-size: 12px;
+  margin-left: 8px;
+}
+
+.parameter-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.parameter-input-wrapper input,
+.parameter-input-wrapper select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.parameter-input-wrapper input:disabled,
+.parameter-input-wrapper select:disabled {
+  background: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.default-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: normal;
+  font-size: 13px;
+  color: #666;
+  cursor: pointer;
+}
+
+.default-checkbox input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.executor-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 20px;
+  border-top: 1px solid #ddd;
+}
+
+.executor-actions button {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.btn-cancel {
+  background: #f5f5f5;
+  color: #333;
+}
+
+.btn-cancel:hover {
+  background: #e0e0e0;
+}
+
+.btn-execute {
+  background: #4CAF50;
+  color: white;
+}
+
+.btn-execute:hover:not(:disabled) {
+  background: #45a049;
+}
+
+.btn-execute:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}

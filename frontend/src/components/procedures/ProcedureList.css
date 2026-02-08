@@ -1,0 +1,132 @@
+.procedure-list {
+  padding: 20px;
+}
+
+.procedure-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.procedure-list-header h2 {
+  margin: 0;
+}
+
+.btn-create {
+  background: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-create:hover {
+  background: #45a049;
+}
+
+.procedure-list-loading,
+.procedure-list-empty {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}
+
+.procedure-list-empty button {
+  margin-top: 10px;
+  background: #2196F3;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.procedure-list-items {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.procedure-item {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: box-shadow 0.2s;
+}
+
+.procedure-item:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.procedure-item-info h3 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+}
+
+.procedure-description {
+  color: #666;
+  margin: 0 0 10px 0;
+  font-size: 14px;
+}
+
+.procedure-meta {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.procedure-version {
+  background: #f0f0f0;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #666;
+}
+
+.badge-active {
+  background: #4CAF50;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.procedure-item-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.procedure-item-actions button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: opacity 0.2s;
+}
+
+.procedure-item-actions button:hover {
+  opacity: 0.8;
+}
+
+.btn-execute {
+  background: #4CAF50;
+  color: white;
+}
+
+.btn-edit {
+  background: #2196F3;
+  color: white;
+}
+
+.btn-delete {
+  background: #f44336;
+  color: white;
+}

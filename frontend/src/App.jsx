@@ -8,6 +8,7 @@ import TableOverview from './components/TableOverview'
 import TableEdit from './components/TableEdit'
 import ImportExcel from './components/ImportExcel'
 import ExcelViewer from './components/ExcelViewer'
+import ProceduresView from './components/procedures/ProceduresView'
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
             <Route path="/tabellen/overview" element={<TableOverview />} />
             <Route path="/tabellen/new" element={<NewTable />} />
             <Route path="/tabellen/edit/:tableId" element={<TableEdit />} />
-            <Route path="/tabellen/prozeduren" element={<div className="placeholder">Prozeduren - In Entwicklung</div>} />
+            <Route path="/tabellen/prozeduren" element={<ProceduresView />} />
             <Route path="/workflows" element={<div className="placeholder">Workflows - In Entwicklung</div>} />
           </Routes>
         </main>
