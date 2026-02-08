@@ -9,5 +9,16 @@ export default defineConfig({
     watch: {
       usePolling: true
     }
+  },
+  optimizeDeps: {
+    include: ['x-data-spreadsheet']
+  },
+  resolve: {
+    alias: {
+      'x-data-spreadsheet': 'x-data-spreadsheet/src/index.js'
+    }
+  },
+  css: {
+    preprocessorOptions: {}
   }
 })

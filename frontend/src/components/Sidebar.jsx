@@ -14,11 +14,11 @@ function Sidebar() {
       icon: '📊',
       subItems: [
         { id: 'tabellen-overview', path: '/tabellen/overview', label: 'Übersicht', icon: '📋' },
-        { id: 'tabellen-new', path: '/tabellen/new', label: 'Neue Tabelle', icon: '➕' },
-        { id: 'tabellen-export', path: '/tabellen/export', label: 'Export', icon: '📤' }
+        { id: 'tabellen-new', path: '/tabellen/new', label: 'Neue Datentabelle', icon: '➕' },
+        { id: 'tabellen-import', path: '/import', label: 'Excel hochladen', icon: '📥' },
+        { id: 'tabellen-prozeduren', path: '/tabellen/prozeduren', label: 'Prozeduren', icon: '⚙️' }
       ]
     },
-    { id: 'prozeduren', path: '/prozeduren', label: 'Prozeduren', icon: '⚙️' },
     { id: 'workflows', path: '/workflows', label: 'Workflows', icon: '🔄' }
   ]
 

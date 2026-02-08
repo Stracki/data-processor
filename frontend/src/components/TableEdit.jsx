@@ -1,16 +1,18 @@
 import React, { useState, useRef, useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 import './NewTable.css'
 
-function NewTable() {
-  const [tableName, setTableName] = useState('Neue Datentabelle')
-  const [columns, setColumns] = useState([
-    { id: 1, name: 'Spalte 1', type: 'string' }
-  ])
-  const [data, setData] = useState([{ id: 1 }])
+function TableEdit() {
+  const { tableId } = useParams()
+  const navigate = useNavigate()
+  const [tableName, setTableName] = useState('Datentabelle')
+  const [columns, setColumns] = useState([])
+  const [data, setData] = useState([])
   const [selectedCell, setSelectedCell] = useState(null)
   const [editingCell, setEditingCell] = useState(null)
-  const [nextColumnId, setNextColumnId] = useState(2)
-  const [nextRowId, setNextRowId] = useState(2)
+  const [loading, setLoading] = useState(true)
+  const [nextColumnId, setNextColumnId] = useState(1)
+  const [nextRowId, setNextRowId] = useState(1)
   
   const inputRef = useRef(null)
 
@@ -24,28 +26,42 @@ function NewTable() {
   ]
 
   useEffect(() => {
+    loadTable()
+  }, [tableId])
+
+  useEffect(() => {
     if (editingCell && inputRef.current) {
       inputRef.current.focus()
     }
   }, [editingCell])
 
-  // Prüfe ob Daten aus ExcelViewer importiert wurden
-  useEffect(() => {
-    const importedData = localStorage.getItem('tableDataFromExcel')
-    if (importedData) {
-      try {
-        const { name, columns: importedColumns, data: importedRows } = JSON.parse(importedData)
-        setTableName(name)
-        setColumns(importedColumns)
-        setData(importedRows)
-        setNextColumnId(Math.max(...importedColumns.map(c => c.id)) + 1)
-        setNextRowId(Math.max(...importedRows.map(r => r.id)) + 1)
-        localStorage.removeItem('tableDataFromExcel')
-      } catch (error) {
-        console.error('Fehler beim Laden der importierten Daten:', error)
+  const loadTable = async () => {
+    try {
+      const response = await fetch(`http://localhost:8000/api/tables/${tableId}`)
+      if (!response.ok) {
+        throw new Error('Tabelle nicht gefunden')
       }
+      const table = await response.json()
+      
+      setTableName(table.name)
+      setColumns(table.columns)
+      setData(table.data)
+      
+      // Berechne nächste IDs
+      if (table.columns.length > 0) {
+        setNextColumnId(Math.max(...table.columns.map(c => c.id)) + 1)
+      }
+      if (table.data.length > 0) {
+        setNextRowId(Math.max(...table.data.map(r => r.id)) + 1)
+      }
+      
+      setLoading(false)
+    } catch (error) {
+      console.error('Fehler beim Laden:', error)
+      alert('Fehler beim Laden der Tabelle: ' + error.message)
+      navigate('/tabellen/overview')
     }
-  }, [])
+  }
 
   const formatValue = (value, type) => {
     if (!value || value === '') return value
@@ -59,7 +75,6 @@ function NewTable() {
         case 'date':
           let date
           if (typeof value === 'number') {
-            // Excel Seriennummer zu Datum konvertieren
             const excelEpoch = new Date(1899, 11, 30)
             date = new Date(excelEpoch.getTime() + value * 86400000)
           } else {
@@ -250,19 +265,14 @@ function NewTable() {
 
   const saveTable = async () => {
     try {
-      // Berechne Statistiken
-      const rowCount = data.length
-      const columnCount = columns.length
-
       const tableData = {
         name: tableName,
         columns: columns,
-        data: data,
-        project_id: null // Später kann hier ein Projekt zugeordnet werden
+        data: data
       }
 
-      const response = await fetch('http://localhost:8000/api/tables/', {
-        method: 'POST',
+      const response = await fetch(`http://localhost:8000/api/tables/${tableId}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -274,10 +284,7 @@ function NewTable() {
       }
 
       const result = await response.json()
-      alert(`✓ Tabelle "${tableName}" wurde gespeichert!\n${rowCount} Zeilen × ${columnCount} Spalten`)
-      
-      // Optional: Zur Übersicht navigieren
-      // navigate('/tabellen/overview')
+      alert(`✓ Tabelle "${tableName}" wurde aktualisiert!\n${result.row_count} Zeilen × ${result.column_count} Spalten`)
       
     } catch (error) {
       console.error('Fehler beim Speichern:', error)
@@ -285,10 +292,25 @@ function NewTable() {
     }
   }
 
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner">⏳</div>
+        <p>Lade Tabelle...</p>
+      </div>
+    )
+  }
+
   return (
     <div className="new-table" onKeyDown={handleKeyDown} tabIndex={0}>
       <div className="new-table-header">
         <div className="header-left">
+          <button 
+            className="btn btn-secondary"
+            onClick={() => navigate('/tabellen/overview')}
+          >
+            ← Zurück
+          </button>
           <input
             type="text"
             className="table-name-input"
@@ -403,4 +425,4 @@ function NewTable() {
   )
 }
 
-export default NewTable
+export default TableEdit
