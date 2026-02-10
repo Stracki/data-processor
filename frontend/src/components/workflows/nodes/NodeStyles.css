@@ -1,0 +1,225 @@
+.custom-node {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  min-width: 200px;
+  border: 2px solid #e0e0e0;
+  transition: all 0.2s;
+}
+
+.custom-node:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.custom-node.selected {
+  border-color: #2196F3;
+  box-shadow: 0 4px 16px rgba(33, 150, 243, 0.3);
+}
+
+.node-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border-bottom: 1px solid #e0e0e0;
+  background: #f9f9f9;
+  border-radius: 6px 6px 0 0;
+}
+
+.node-icon {
+  font-size: 1.25rem;
+}
+
+.node-title {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.node-content {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.node-select {
+  padding: 0.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.node-select:focus {
+  outline: none;
+  border-color: #4CAF50;
+}
+
+.node-input {
+  padding: 0.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: border-color 0.2s;
+}
+
+.node-input:focus {
+  outline: none;
+  border-color: #4CAF50;
+}
+
+.node-info {
+  font-size: 0.75rem;
+  color: #ff9800;
+  padding: 0.5rem;
+  background: #fff3e0;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.node-loading {
+  font-size: 0.8rem;
+  color: #666;
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.node-handles-container {
+  margin-top: 0.5rem;
+  margin-left: -1rem; /* Kompensiert das padding der node-content */
+  margin-right: -1rem;
+}
+
+.handles-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 0.5rem;
+  padding-left: 1rem; /* Label bleibt eingerückt */
+}
+
+.handle-item {
+  position: relative;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.25rem;
+  padding-left: 1rem; /* Für das Label */
+}
+
+.handle-item .react-flow__handle {
+  position: absolute !important;
+  left: -2px !important; /* Kompensiert den 2px border */
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+.handle-label-left {
+  margin-left: 8px;
+  font-size: 0.8rem;
+  color: #333;
+  background: white;
+  padding: 4px 8px;
+  border-radius: 3px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #e0e0e0;
+}
+
+.required-mark {
+  color: #f44336;
+  font-weight: bold;
+}
+
+.handle-type {
+  font-size: 0.7rem;
+  color: #666;
+  background: #f5f5f5;
+  padding: 1px 4px;
+  border-radius: 2px;
+  font-family: monospace;
+}
+
+/* React Flow Handle Styling */
+.react-flow__handle {
+  width: 12px;
+  height: 12px;
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.react-flow__handle-connecting {
+  background: #2196F3 !important;
+}
+
+.react-flow__handle-valid {
+  background: #4CAF50 !important;
+}
+
+/* Node-spezifische Farben */
+.table-node {
+  border-color: #2196F3;
+}
+
+.table-node .node-header {
+  background: #e3f2fd;
+}
+
+.procedure-node {
+  border-color: #4CAF50;
+  min-width: 250px;
+}
+
+.procedure-node .node-header {
+  background: #e8f5e9;
+}
+
+.value-node {
+  border-color: #FF9800;
+}
+
+.value-node .node-header {
+  background: #fff3e0;
+}
+
+.api-node {
+  border-color: #9C27B0;
+}
+
+.api-node .node-header {
+  background: #f3e5f5;
+}
+
+.output-node {
+  border-color: #F44336;
+  min-width: 250px;
+}
+
+.output-node .node-header {
+  background: #ffebee;
+}
+
+.output-action-select {
+  margin-bottom: 0.5rem;
+}
+
+.output-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 0.25rem;
+}
+
+.output-field {
+  margin-bottom: 0.5rem;
+}
+
+.output-field:last-child {
+  margin-bottom: 0;
+}

@@ -9,6 +9,8 @@ import TableEdit from './components/TableEdit'
 import ImportExcel from './components/ImportExcel'
 import ExcelViewer from './components/ExcelViewer'
 import ProceduresView from './components/procedures/ProceduresView'
+import WorkflowsView from './components/workflows/WorkflowsView'
+import WorkflowEditPage from './pages/WorkflowEditPage'
 
 function App() {
   return (
@@ -24,7 +26,9 @@ function App() {
             <Route path="/tabellen/new" element={<NewTable />} />
             <Route path="/tabellen/edit/:tableId" element={<TableEdit />} />
             <Route path="/tabellen/prozeduren" element={<ProceduresView />} />
-            <Route path="/workflows" element={<div className="placeholder">Workflows - In Entwicklung</div>} />
+            <Route path="/workflows" element={<WorkflowsView />} />
+            <Route path="/workflows/new" element={<WorkflowEditPage />} />
+            <Route path="/workflows/edit/:workflowId" element={<WorkflowEditPage />} />
           </Routes>
         </main>
       </div>

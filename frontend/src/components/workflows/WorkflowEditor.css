@@ -1,0 +1,236 @@
+.workflow-editor {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #f5f5f5;
+}
+
+.workflow-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.workflow-info {
+  display: flex;
+  gap: 1rem;
+  flex: 1;
+}
+
+.workflow-name-input {
+  font-size: 1.5rem;
+  font-weight: 600;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 0.5rem;
+  transition: border-color 0.2s;
+}
+
+.workflow-name-input:focus {
+  outline: none;
+  border-bottom-color: #4CAF50;
+}
+
+.workflow-description-input {
+  font-size: 1rem;
+  color: #666;
+  border: none;
+  border-bottom: 1px solid transparent;
+  padding: 0.5rem;
+  flex: 1;
+  transition: border-color 0.2s;
+}
+
+.workflow-description-input:focus {
+  outline: none;
+  border-bottom-color: #4CAF50;
+}
+
+.workflow-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.validation-badge {
+  padding: 0.5rem 1rem;
+  background: #fff3e0;
+  color: #ff9800;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.btn-save {
+  padding: 0.75rem 1.5rem;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.btn-save:hover {
+  background: #45a049;
+}
+
+.connection-error-toast {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #f44336;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  z-index: 1000;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.validation-panel {
+  position: absolute;
+  top: 80px;
+  right: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  padding: 1rem;
+  max-width: 300px;
+  z-index: 100;
+  border-left: 4px solid #ff9800;
+}
+
+.validation-header {
+  font-weight: 600;
+  color: #ff9800;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.validation-error {
+  font-size: 0.85rem;
+  color: #666;
+  padding: 0.5rem;
+  background: #fff3e0;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.validation-error:last-child {
+  margin-bottom: 0;
+}
+
+.error-node {
+  font-weight: 600;
+  color: #f44336;
+}
+
+.workflow-canvas {
+  flex: 1;
+  position: relative;
+}
+
+.btn-add-node {
+  padding: 0.75rem 1.5rem;
+  background: white;
+  border: 2px solid #4CAF50;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  color: #4CAF50;
+  transition: all 0.2s;
+}
+
+.btn-add-node:hover {
+  background: #4CAF50;
+  color: white;
+}
+
+.node-palette {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 1000;
+}
+
+.palette-item {
+  padding: 0.75rem 1rem;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.palette-item:hover {
+  background: #f5f5f5;
+  border-color: #4CAF50;
+  transform: translateX(4px);
+}
+
+/* React Flow Customization */
+.react-flow__node {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+.react-flow__node-default {
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+.react-flow__edge-path {
+  stroke: #4CAF50;
+  stroke-width: 2;
+}
+
+.react-flow__edge.selected .react-flow__edge-path {
+  stroke: #2196F3;
+  stroke-width: 3;
+}
+
+.react-flow__handle {
+  width: 10px;
+  height: 10px;
+  background: #4CAF50;
+  border: 2px solid white;
+}
+
+.react-flow__handle-connecting {
+  background: #2196F3;
+}
+
+.react-flow__handle-valid {
+  background: #4CAF50;
+}
