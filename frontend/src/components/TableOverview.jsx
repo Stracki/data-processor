@@ -1,31 +1,42 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import Breadcrumb from './Breadcrumb'
 import './TableOverview.css'
 
 function TableOverview() {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const [tables, setTables] = useState([])
   const [excelFiles, setExcelFiles] = useState([])
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState('tables') // 'tables' or 'excel'
   const [expandedVersions, setExpandedVersions] = useState({}) // Für Versions-Anzeige
   const [fileVersions, setFileVersions] = useState({}) // Speichert geladene Versionen
+  
+  const projectId = searchParams.get('project')
+  const cycleId = searchParams.get('cycle')
 
   useEffect(() => {
     loadData()
-  }, [])
+  }, [projectId, cycleId])
 
   const loadData = async () => {
     try {
-      // Lade Datentabellen
-      const tablesResponse = await fetch('http://localhost:8000/api/tables/')
+      // Lade Datentabellen mit Projekt-Filter
+      const tablesParams = new URLSearchParams()
+      if (projectId) tablesParams.append('project_id', projectId)
+      
+      const tablesResponse = await fetch(`http://localhost:8000/api/tables/?${tablesParams.toString()}`)
       if (tablesResponse.ok) {
         const tablesData = await tablesResponse.json()
         setTables(tablesData)
       }
 
-      // Lade Excel-Dateien
-      const excelResponse = await fetch('http://localhost:8000/api/files/list')
+      // Lade Excel-Dateien mit Projekt-Filter
+      const excelParams = new URLSearchParams()
+      if (projectId) excelParams.append('project_id', projectId)
+      
+      const excelResponse = await fetch(`http://localhost:8000/api/files/list?${excelParams.toString()}`)
       if (excelResponse.ok) {
         const excelData = await excelResponse.json()
         setExcelFiles(excelData)
@@ -143,49 +154,51 @@ function TableOverview() {
 
   return (
     <div className="table-overview">
-      <div className="overview-header">
-        <h1>📊 Daten-Übersicht</h1>
-        <div className="header-actions">
-          <button 
-            className="btn btn-secondary"
-            onClick={() => navigate('/import')}
-          >
-            📥 Excel hochladen
-          </button>
-          <button 
-            className="btn btn-primary"
-            onClick={() => navigate('/tabellen/new')}
-          >
-            ➕ Neue Datentabelle
-          </button>
+      <Breadcrumb />
+      <div className="table-overview-content">
+        <div className="overview-header">
+          <h1>📊 Daten-Übersicht</h1>
+          <div className="header-actions">
+            <button 
+              className="btn btn-secondary"
+              onClick={() => navigate('/import')}
+            >
+              📥 Excel hochladen
+            </button>
+            <button 
+              className="btn btn-primary"
+              onClick={() => navigate('/tabellen/new')}
+            >
+              ➕ Neue Datentabelle
+            </button>
+          </div>
         </div>
-      </div>
 
-      <div className="tabs-container">
-        <div className="tabs">
-          <button 
-            className={`tab ${activeTab === 'tables' ? 'active' : ''}`}
-            onClick={() => setActiveTab('tables')}
-          >
-            📋 Datentabellen ({tables.length})
-          </button>
-          <button 
-            className={`tab ${activeTab === 'excel' ? 'active' : ''}`}
-            onClick={() => setActiveTab('excel')}
-          >
-            📊 Excel-Dateien ({excelFiles.length})
-          </button>
+        <div className="tabs-container">
+          <div className="tabs">
+            <button 
+              className={`tab ${activeTab === 'tables' ? 'active' : ''}`}
+              onClick={() => setActiveTab('tables')}
+            >
+              📋 Datentabellen ({tables.length})
+            </button>
+            <button 
+              className={`tab ${activeTab === 'excel' ? 'active' : ''}`}
+              onClick={() => setActiveTab('excel')}
+            >
+              📊 Excel-Dateien ({excelFiles.length})
+            </button>
+          </div>
         </div>
-      </div>
 
-      {loading ? (
-        <div className="loading-container">
-          <div className="loading-spinner">⏳</div>
-          <p>Lade Daten...</p>
-        </div>
-      ) : (
-        <>
-          {activeTab === 'tables' && (
+        {loading ? (
+          <div className="loading-container">
+            <div className="loading-spinner">⏳</div>
+            <p>Lade Daten...</p>
+          </div>
+        ) : (
+          <>
+            {activeTab === 'tables' && (
             tables.length === 0 ? (
               <div className="empty-state">
                 <div className="empty-icon">📋</div>
@@ -369,6 +382,7 @@ function TableOverview() {
           )}
         </>
       )}
+      </div>
     </div>
   )
 }

@@ -1,17 +1,30 @@
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import './ProcedureList.css';
 
 function ProcedureList({ onSelectProcedure, onCreateNew }) {
   const [procedures, setProcedures] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchParams] = useSearchParams();
+  
+  const projectId = searchParams.get('project');
+  const cycleId = searchParams.get('cycle');
+  const scope = searchParams.get('scope') || 'project';
 
   useEffect(() => {
     fetchProcedures();
-  }, []);
+  }, [projectId, cycleId, scope]);
 
   const fetchProcedures = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/procedures/');
+      // Nutze den by-scope Endpunkt mit Filtern
+      const params = new URLSearchParams();
+      if (scope) params.append('scope', scope);
+      if (projectId) params.append('project_id', projectId);
+      if (cycleId) params.append('cycle_id', cycleId);
+      params.append('include_global', 'true');
+      
+      const response = await fetch(`http://localhost:8000/api/procedures/by-scope/?${params.toString()}`);
       const data = await response.json();
       setProcedures(data);
     } catch (error) {

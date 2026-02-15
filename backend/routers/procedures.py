@@ -340,3 +340,94 @@ def delete_procedure(procedure_id: int, db: Session = Depends(get_db)):
 def get_procedure_examples():
     """Gibt Beispiel-Prozeduren zurück"""
     return EXAMPLES
+
+
+@router.post("/{procedure_id}/copy", response_model=schemas.Procedure)
+def copy_procedure_to_scope(
+    procedure_id: int,
+    copy_request: schemas.ProcedureCopyRequest,
+    db: Session = Depends(get_db)
+):
+    """Kopiert eine Prozedur in einen anderen Scope (z.B. von Global zu Project)"""
+    
+    # Hole Original-Prozedur
+    original = db.query(Procedure).filter(Procedure.id == procedure_id).first()
+    if not original:
+        raise HTTPException(status_code=404, detail="Prozedur nicht gefunden")
+    
+    # Prüfe ob bereits eine Kopie existiert
+    existing = db.query(Procedure).filter(
+        Procedure.name == original.name,
+        Procedure.scope == copy_request.target_scope,
+        Procedure.project_id == copy_request.target_project_id,
+        Procedure.cycle_id == copy_request.target_cycle_id
+    ).first()
+    
+    if existing:
+        raise HTTPException(
+            status_code=400, 
+            detail=f"Prozedur '{original.name}' existiert bereits im Ziel-Scope"
+        )
+    
+    # Erstelle Kopie
+    copied_procedure = Procedure(
+        name=original.name,
+        version=1,  # Neue Version im neuen Scope
+        code=original.code,
+        description=original.description,
+        parameter_types=original.parameter_types,
+        scope=copy_request.target_scope,
+        project_id=copy_request.target_project_id,
+        cycle_id=copy_request.target_cycle_id,
+        copied_from_id=original.id,
+        is_active=True
+    )
+    
+    db.add(copied_procedure)
+    db.commit()
+    db.refresh(copied_procedure)
+    
+    return copied_procedure
+
+
+@router.get("/by-scope/", response_model=List[schemas.Procedure])
+def list_procedures_by_scope(
+    scope: str = None,
+    project_id: int = None,
+    cycle_id: int = None,
+    include_global: bool = True,
+    db: Session = Depends(get_db)
+):
+    """
+    Listet Prozeduren nach Scope mit Namespace-Hierarchie
+    - Global: immer verfügbar
+    - Project: nur für das Projekt
+    - Cycle: nur für den Zyklus
+    """
+    
+    query = db.query(Procedure).filter(Procedure.is_active == True)
+    
+    procedures = []
+    
+    # Global-Prozeduren (immer verfügbar wenn include_global=True)
+    if include_global:
+        global_procs = query.filter(Procedure.scope == 'global').all()
+        procedures.extend(global_procs)
+    
+    # Project-Prozeduren
+    if project_id:
+        project_procs = query.filter(
+            Procedure.scope == 'project',
+            Procedure.project_id == project_id
+        ).all()
+        procedures.extend(project_procs)
+    
+    # Cycle-Prozeduren
+    if cycle_id:
+        cycle_procs = query.filter(
+            Procedure.scope == 'cycle',
+            Procedure.cycle_id == cycle_id
+        ).all()
+        procedures.extend(cycle_procs)
+    
+    return procedures

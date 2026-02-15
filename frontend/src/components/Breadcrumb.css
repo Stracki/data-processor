@@ -1,0 +1,46 @@
+/* Breadcrumb Navigation - Komplett neu */
+.kiro-breadcrumb {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  margin: 0;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 0.9rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.kiro-breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  text-decoration: none;
+  color: #666666;
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+
+.kiro-breadcrumb-item:hover {
+  color: #4CAF50;
+  text-decoration: underline;
+}
+
+.kiro-breadcrumb-item.kiro-breadcrumb-current {
+  color: #333333;
+  font-weight: 500;
+  cursor: default;
+}
+
+.kiro-breadcrumb-item.kiro-breadcrumb-current:hover {
+  text-decoration: none;
+}
+
+.kiro-breadcrumb-separator {
+  color: #cccccc;
+  user-select: none;
+  margin: 0 0.25rem;
+}

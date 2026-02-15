@@ -15,6 +15,42 @@
 .sidebar-header h2 {
   font-size: 1.5rem;
   font-weight: 600;
+  margin: 0 0 1rem 0;
+}
+
+.current-context {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.context-project,
+.context-cycle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.context-cycle {
+  background: rgba(255, 255, 255, 0.05);
+  margin-left: 0.5rem;
+}
+
+.context-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.context-name {
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
 }
 
 .sidebar-nav {

@@ -1,8 +1,9 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import './App.css'
-import Sidebar from './components/Sidebar'
-import ProjectList from './components/ProjectList'
+import DirectorySidebar from './components/DirectorySidebar'
+import ProjectHome from './components/projects/ProjectHome'
+import GlobalValuesView from './components/GlobalValuesView'
 import NewTable from './components/NewTable'
 import TableOverview from './components/TableOverview'
 import TableEdit from './components/TableEdit'
@@ -16,16 +17,20 @@ function App() {
   return (
     <Router>
       <div className="app">
-        <Sidebar />
+        <DirectorySidebar />
         <main className="main-content">
           <Routes>
-            <Route path="/" element={<ProjectList />} />
+            <Route path="/" element={<Navigate to="/home" replace />} />
+            <Route path="/home" element={<ProjectHome />} />
+            <Route path="/global-values" element={<GlobalValuesView />} />
             <Route path="/import" element={<ImportExcel />} />
             <Route path="/excel-viewer" element={<ExcelViewer />} />
             <Route path="/tabellen/overview" element={<TableOverview />} />
+            <Route path="/tables" element={<TableOverview />} />
             <Route path="/tabellen/new" element={<NewTable />} />
             <Route path="/tabellen/edit/:tableId" element={<TableEdit />} />
             <Route path="/tabellen/prozeduren" element={<ProceduresView />} />
+            <Route path="/procedures" element={<ProceduresView />} />
             <Route path="/workflows" element={<WorkflowsView />} />
             <Route path="/workflows/new" element={<WorkflowEditPage />} />
             <Route path="/workflows/edit/:workflowId" element={<WorkflowEditPage />} />

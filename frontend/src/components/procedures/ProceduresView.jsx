@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Breadcrumb from '../Breadcrumb';
 import ProcedureList from './ProcedureList';
 import ProcedureEditor from './ProcedureEditor';
 import ProcedureExecutor from './ProcedureExecutor';
@@ -40,12 +41,14 @@ function ProceduresView() {
 
   return (
     <div className="procedures-view">
-      {view === 'list' && (
-        <ProcedureList
-          onSelectProcedure={handleSelectProcedure}
-          onCreateNew={handleCreateNew}
-        />
-      )}
+      <Breadcrumb />
+      <div className="procedures-view-content">
+        {view === 'list' && (
+          <ProcedureList
+            onSelectProcedure={handleSelectProcedure}
+            onCreateNew={handleCreateNew}
+          />
+        )}
 
       {view === 'editor' && (
         <ProcedureEditor
@@ -62,6 +65,7 @@ function ProceduresView() {
           onSuccess={handleExecutionSuccess}
         />
       )}
+      </div>
     </div>
   );
 }

@@ -1,13 +1,62 @@
-import { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Link, useLocation, useSearchParams } from 'react-router-dom'
 import './Sidebar.css'
 
 function Sidebar() {
   const location = useLocation()
+  const [searchParams] = useSearchParams()
   const [expandedItems, setExpandedItems] = useState({})
+  const [currentContext, setCurrentContext] = useState(null)
+  
+  const projectId = searchParams.get('project')
+  const cycleId = searchParams.get('cycle')
+  const scope = searchParams.get('scope')
+
+  useEffect(() => {
+    // Lade Projekt-Info wenn projectId vorhanden
+    if (projectId) {
+      fetchProjectContext()
+    } else {
+      setCurrentContext(null)
+    }
+  }, [projectId, cycleId])
+
+  const fetchProjectContext = async () => {
+    try {
+      const response = await fetch(`http://localhost:8000/api/projects/${projectId}`)
+      const project = await response.json()
+      
+      let cycleName = null
+      if (cycleId) {
+        const cyclesResponse = await fetch(`http://localhost:8000/api/projects/${projectId}/cycles`)
+        const cycles = await cyclesResponse.json()
+        const cycle = cycles.find(c => c.id === parseInt(cycleId))
+        cycleName = cycle?.name
+      }
+      
+      setCurrentContext({
+        project,
+        cycleName,
+        scope
+      })
+    } catch (error) {
+      console.error('Fehler beim Laden des Kontexts:', error)
+    }
+  }
+
+  const buildLinkWithContext = (path) => {
+    if (!projectId) return path
+    
+    const params = new URLSearchParams()
+    params.append('project', projectId)
+    if (cycleId) params.append('cycle', cycleId)
+    if (scope) params.append('scope', scope)
+    
+    return `${path}?${params.toString()}`
+  }
   
   const menuItems = [
-    { id: 'home', path: '/', label: 'Projekte', icon: '🏠' },
+    { id: 'home', path: '/home', label: 'Home', icon: '🏠', noContext: true },
     { 
       id: 'tabellen', 
       label: 'Tabellen', 
@@ -43,6 +92,20 @@ function Sidebar() {
     <aside className="sidebar">
       <div className="sidebar-header">
         <h2>Data Processor</h2>
+        {currentContext && (
+          <div className="current-context">
+            <div className="context-project">
+              <span className="context-icon">{currentContext.project.is_global ? '🌐' : '📂'}</span>
+              <span className="context-name">{currentContext.project.name}</span>
+            </div>
+            {currentContext.cycleName && (
+              <div className="context-cycle">
+                <span className="context-icon">📅</span>
+                <span className="context-name">{currentContext.cycleName}</span>
+              </div>
+            )}
+          </div>
+        )}
       </div>
       <nav className="sidebar-nav">
         {menuItems.map(item => (
@@ -64,7 +127,7 @@ function Sidebar() {
                     {item.subItems.map(subItem => (
                       <Link
                         key={subItem.id}
-                        to={subItem.path}
+                        to={buildLinkWithContext(subItem.path)}
                         className={`sidebar-subitem ${location.pathname === subItem.path ? 'active' : ''}`}
                       >
                         <span className="sidebar-icon">{subItem.icon}</span>
@@ -76,7 +139,7 @@ function Sidebar() {
               </>
             ) : (
               <Link 
-                to={item.path} 
+                to={item.noContext ? item.path : buildLinkWithContext(item.path)}
                 className={`sidebar-item ${location.pathname === item.path ? 'active' : ''}`}
               >
                 <span className="sidebar-icon">{item.icon}</span>

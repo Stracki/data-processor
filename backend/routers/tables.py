@@ -9,9 +9,14 @@ router = APIRouter(prefix="/tables", tags=["tables"])
 
 
 @router.get("/", response_model=List[DataTableSchema])
-def get_all_tables(db: Session = Depends(get_db)):
-    """Alle Datentabellen abrufen"""
-    tables = db.query(DataTable).order_by(DataTable.updated_at.desc()).all()
+def get_all_tables(project_id: int = None, db: Session = Depends(get_db)):
+    """Alle Datentabellen abrufen, optional gefiltert nach Projekt"""
+    query = db.query(DataTable)
+    
+    if project_id:
+        query = query.filter(DataTable.project_id == project_id)
+    
+    tables = query.order_by(DataTable.updated_at.desc()).all()
     return tables
 
 
